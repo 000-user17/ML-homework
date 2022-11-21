@@ -1,0 +1,322 @@
+\documentclass[a4paper,UTF8]{article}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{color}
+\usepackage{ctex}
+\usepackage{enumerate}
+\usepackage{epsfig}
+\usepackage[margin=1.25in]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{lipsum}
+\usepackage{mdframed}
+\usepackage{pgfplots}
+\usepackage{tcolorbox}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.5in}
+\setlength{\topmargin}{-0.5in}
+
+%%%%%%%%%%%%%%%%%%此处用于设置页眉页脚%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{layout}
+\footskip = 12pt 
+\pagestyle{fancy}
+\lhead{2022年春季}                    
+\chead{机器学习理论研究导引}
+\rhead{作业二}
+\cfoot{\thepage}                                                
+\renewcommand{\headrulewidth}{1pt} %页眉线宽, 设为0可以去页眉线
+\setlength{\skip\footins}{0.5cm} %脚注与正文的距离           
+\renewcommand{\footrulewidth}{0pt} %页脚线宽, 设为0可以去页脚线
+
+\makeatletter %设置双线页眉                                        
+\def\headrule{{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
+\hrule\@height 1.0pt \@width\headwidth\vskip1pt	%上面线为1pt粗  
+\hrule\@height 0.5pt\@width\headwidth %下面0.5pt粗            
+\vskip-2\headrulewidth\vskip-1pt} %两条线的距离1pt        
+ \vspace{6mm}} %双线与下面正文之间的垂直间距              
+\makeatother  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\numberwithin{equation}{section}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem*{myProof}{Proof}
+\newtheorem*{mySol}{Solution}
+
+\usepackage{multirow}
+
+\pgfplotsset{compat=1.16} 
+
+\begin{document}
+
+\title{机器学习理论研究导引\\
+作业二}
+\author{陈晟, MG21330006} 
+\maketitle
+%%%%%%%% 注意: 使用XeLatex 编译可能会报错, 请使用 pdfLaTex 编译 %%%%%%%
+
+\section*{作业提交注意事项}
+
+\begin{tcolorbox}
+    \begin{enumerate}
+        \item[(1)] 本次作业提交截止时间为~\textcolor{red}{\textbf{2022/04/05  23:59:59}}, 截止时间后不再接收作业, 本次作业记零分; 
+        \item[(2)] 作业提交方式：使用此~LaTex~模板书写解答，只需提交编译生成的~pdf~文件，将~pdf~文件上传到以下ftp服务器的指定位置：
+        \newline 地址：sftp://210.28.132.67:22，用户名：mlt2022，密码：mltspring2022@nju
+        \newline 文件夹位置：/C:/Users/mlt2022/hw\_submissions/hw2\_submission/  ；
+        \item[(3)] pdf 文件命名方式：学号-姓名-作业号-v版本号, 例~ MG1900000-张三-2-v1；如果需要更改已提交的解答，请在截止时间之前提交新版本的解答，并将版本号加一；
+        \item[(4)] 未按照要求提交作业，或~pdf~命名方式不正确，将会被扣除部分作业分数. 
+    \end{enumerate}
+\end{tcolorbox}
+
+\newpage
+
+\section{[25pts] Rademacher Complexity Property}
+
+\noindent 固定正整数~$m\geqslant 1$, 对任意实数~$\alpha\in \mathbb{R}$~以及由~$\mathcal{X} \rightarrow \mathbb{R}$~的映射组成的任意两个假设集~$\mathcal{H}_1$、$\mathcal{H}_2$, 试证明下列关于~Rademacher~复杂度的等式/不等式成立. 
+\begin{enumerate}[(1)]
+    \item \textbf{[5pts]} 若~$\mathcal{H}_1$~中仅包含一个假设, 即~$\mathcal{H}_1=\{h_1\}$,  则~$\mathfrak{R}_m(\mathcal{H}_1) = 0$.
+    \item \textbf{[5pts]} $\mathfrak{R}_m(\alpha \mathcal{H}_1) = |\alpha|\mathfrak{R}_m(\mathcal{H}_1)$.
+    \item \textbf{[5pts]} $\mathfrak{R}_m(\mathcal{H}_1 + \mathcal{H}_2) = \mathfrak{R}_m(\mathcal{H}_1) + \mathfrak{R}_m(\mathcal{H}_2)$.
+    \item \textbf{[10pts]} $\mathfrak{R}_m(\mathcal{H}) \leqslant \mathfrak{R}_m(\mathcal{H}_1) + \mathfrak{R}_m(\mathcal{H}_2)$, 其中假设集~$\mathcal{H}$~定义为~$\mathcal{H} = \{\max(h_1,h_2): h_1\in \mathcal{H}_1, h_2\in \mathcal{H}_2\}$.
+\end{enumerate}
+
+\noindent 提示：最后一问中你可能会用到等式~$\max(a, b) =\frac{1}{2}(a+b+|a-b|)$ 以及~Talagrand's Lemma (又称为~Contraction Lemma). 关于~Talagrand's Lemma, 可参见\href{http://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/copy.html}{《Understanding Machine Learning: From Theory to Algorithms》} ~ Lemma 26.9（书第26章, pp. 381-382）
+
+\begin{myProof}~\\
+    此处用于写解答(中英文均可)
+    \qed
+     
+    
+    (1)
+    若G为假设集，则
+    
+    $\because \mathfrak{R}_m\left ( G \right ) = E_s\left [ E_\sigma \left [ sup_{u\in G_{|s}}\frac{1}{m}\sum_{i=1}^{m}\sigma _iu_i\right ] \right ]\leq E_s\left [ \frac{\sqrt{m}\sqrt{2ln|G_{|S}|}}{m} \right ]$
+    
+    $\therefore \mathfrak{R}_m\left ( G \right )\leq \sqrt{\frac{2ln\prod_{G}^{}\left ( m \right )}{m}}$
+    
+    当$G=\mathcal{H}_1$时，显而易见
+    
+    $\mathfrak{R}_m\left ( H1 \right )\leq\sqrt{\frac{2ln\prod_{G}^{}\left ( m \right )}{m}} = \sqrt{\frac{2ln m}{m}} $
+    
+    由于
+    $d\frac{2ln x}{x} = \frac{2-2lnx}{x^{2}} = 0$
+    
+    $x=e$为集大值点，$x \geq 1$时也是最大值
+    
+    而$\frac{2lne}{e} = 1$
+    
+    所以$\frac{2lnm}{m} \leq 1 , m\geq1, m \in N$
+    
+    即$\mathfrak{R}_m\left ( \mathcal{H}_1 \right ) < 1, \mathfrak{R}_m\left (\mathcal{H}_1  \right )=0$
+    
+    
+    (2)
+    
+    $\because \mathfrak{R}_m\left ( \mathcal{\alpha H}_1 \right ) = E_s\left [ E_\sigma \left [ sup_{u\in {\mathcal{\alpha H}_1}_{|s}}\frac{1}{m}\sum_{i=1}^{m}\alpha \sigma _iu_i\right ] \right ]$
+    
+    $\therefore  \mathfrak{R}_m\left ( \mathcal{ H}_1 \right )=E_s\left [\alpha  E_\sigma \left [ sup_{u\in {\mathcal{ H}_1}_{|s}}\frac{1}{m}\sum_{i=1}^{m} \sigma _iu_i\right ] \right ]=\alpha E_s\left [  E_\sigma \left [ sup_{u\in {\mathcal{ H}_1}_{|s}}\frac{1}{m}\sum_{i=1}^{m} \sigma _iu_i\right ] \right ]$
+    
+    即$\mathfrak{R}_m(\alpha \mathcal{H}_1) = |\alpha|\mathfrak{R}_m(\mathcal{H}_1)$
+    
+    (3)
+    
+    $\because \mathfrak{R}_m\left ( \mathcal{ H}_1+\mathcal{ H}_2 \right ) = E_s\left [ E_\sigma \left [ sup_{u\in {\mathcal{ H}_1}_{|s}}\frac{1}{m}\sum_{i=1}^{m} \sigma _iu_i\right ]+E_\sigma \left [ sup_{u\in {\mathcal{ H}_2}_{|s}}\frac{1}{m}\sum_{i=1}^{m} \sigma _iu_i\right ] \right ] = E_s\left [ E_\sigma \left [ sup_{u\in {\mathcal{ H}_1}_{|s}}\frac{1}{m}\sum_{i=1}^{m} \sigma _iu_i\right ]\right]+E_s\left [ E_\sigma \left [ sup_{u\in {\mathcal{ H}_2}_{|s}}\frac{1}{m}\sum_{i=1}^{m} \sigma _iu_i\right ]\right]$
+    
+    $\therefore \mathfrak{R}_m(\mathcal{H}_1 + \mathcal{H}_2) = \mathfrak{R}_m(\mathcal{H}_1) + \mathfrak{R}_m(\mathcal{H}_2)$
+    
+    (4)
+    
+    假设集~$\mathcal{H}$~定义为~$\mathcal{H} = \{\max(h_1,h_2): h_1\in \mathcal{H}_1, h_2\in \mathcal{H}_2\}$
+    
+    $\because \mathfrak{R}_m\left ( \mathcal{ H} \right ) = E_s\left [ E_\sigma \left [ sup_{u\in {\mathcal{ H}}_{|s}}\frac{1}{m}\sum_{i=1}^{m} \sigma _iu_i\right ] \right ]$
+    
+    $\therefore \mathfrak{R}_m\left ( \mathcal{ H} \right ) = E_s\left [ E_\sigma \left [ sup_{u\in { \{\max(h_1,h_2): h_1\in \mathcal{H}_1, h_2\in \mathcal{H}_2\}}_{|s}} \frac{1}{m}\sum_{i=1}^{m} \sigma _iu_i\right ] \right ]$
+    
+    由Talagrand's Lemma
+    
+    $\mathfrak{R}_m\left ( \mathcal{ H} \right ) = E_s\left [ E_\sigma \left [ sup_{u\in {\mathcal{ H}}_{|s}}\frac{1}{m}\sum_{i=1}^{m} \sigma _iu_i\right ] \right ]\leq \mathfrak{R}_m\left ( \mathcal{ H}_1+\mathcal{ H}_2 \right ) = E_s\left [ E_\sigma \left [ sup_{u\in {\mathcal{ H}_1}_{|s}}\frac{1}{m}\sum_{i=1}^{m} \sigma _iu_i\right ]+E_\sigma \left [ sup_{u\in {\mathcal{ H}_2}_{|s}}\frac{1}{m}\sum_{i=1}^{m} \sigma _iu_i\right ] \right ] = E_s\left [ E_\sigma \left [ sup_{u\in {\mathcal{ H}_1}_{|s}}\frac{1}{m}\sum_{i=1}^{m} \sigma _iu_i\right ]\right]+E_s\left [ E_\sigma \left [ sup_{u\in {\mathcal{ H}_2}_{|s}}\frac{1}{m}\sum_{i=1}^{m} \sigma _iu_i\right ]\right]$
+    
+    
+    
+    
+    
+\end{myProof}
+
+\newpage 
+
+\section{[25pts] VC Dimension of Voting}
+
+\noindent 考虑~VC~维为~$d$~的假设空间~$\mathcal{H}$, 其中~$h \in \mathcal{H} : \mathcal{X} \rightarrow \{ -1 , +1 \} $, 令~$\mathcal{M}$~表示由~$\mathcal{H}$~中任意~$k \geqslant 1$~个假设根据多数投票法生成的假设所组成的假设空间, 即
+\begin{equation}
+    \mathcal{M} 
+    = \left\{ h(\bm{x}) = \mathop{\arg \max}_{ y \in \{ -1 , +1 \} } \sum_{i=1}^k \mathbb{I} ( h_i(\bm{x}) = y) : h_1 , \cdots , h_k \in \mathcal{H} \right\} . 
+\end{equation}
+若~$kd \geqslant 4$, 试证明~$\mathcal{M}$~的~VC~维有上界~$ O ( kd \ln(kd) )$. 
+
+\begin{myProof}~\\ 
+    此处用于写解答(中英文均可)
+    
+    
+    
+    $\mathcal{M}$为假设
+    $VC\left ( \mathcal{M}  \right ) = max\left\{ m: \prod _\mathcal{M} = 2^m\right\}$
+    
+    $VC\left ( \mathcal{M}  \right ) = d$ 表明存在大小为d的示例集能被假设空间打散
+    
+    由于$\mathcal{M} $是由k个假设根据多数投票法生成的假设，并且VC维为d
+    
+    假设能被$\mathcal{M} $打散的最大样本集大小为d ，则$\prod_{\mathcal{F}} = 2^d$ ，由
+    
+    $\prod_{\mathcal{M}}\left ( m \right )\leq \sum_{i=0}^{d}\left ( _{i}^{m}\textrm{} \right )$
+    
+    $\prod_{\mathcal{F}}\left ( m \right ) \leq \prod_{\mathcal{F}^{\left ( 1 \right )}}\left ( m \right )\cdot \prod_{\mathcal{F}^{\left ( 2 \right )}}\left ( m \right )$ 
+    $\mathcal{F}^{\left ( 1 \right )}\subset y_{1}^{x}$和$\mathcal{F}^{\left ( 2 \right )}\subset y_{2}^{x}$,$\mathcal{F}$是它们的笛卡尔乘积
+    
+    以及$\prod_{\mathcal{H}}\left ( m \right )\leq \left ( {\frac{e\cdot m}{d}}^d \right )$
+    
+    由$\prod_{\mathcal{F}}\left ( m \right )\leq \prod_{i=1}^{l}\prod_{\mathcal{F}^{\left ( i \right )}}\left ( m \right )\leq \prod_{i=1}^{l}\prod_{j=1}^{d_i}\left ( \frac{e\cdot m}{d_{i-1}+1} \right )^{d_{i-1}+1}$
+    
+    综上令$N=\sum_{i=1}^{l}\sum_{j=1}^{d_i}\left ( d_{i-1}+1 \right ) = kd $
+    
+    $\therefore \prod_{\mathcal{F}}\left ( m \right )\leq \left ( e\cdot m \right )^kd$
+    
+    $2^d\leq \left ( de \right )^{kd}$
+    
+    $\therefore \mathcal{M}$~的~VC~维有上界~$ O ( kd \ln(kd) )$
+    
+    
+    
+    
+\end{myProof}
+
+\newpage 
+
+\section{[25pts] 一维阈值函数的经验Rademacher复杂度}
+
+\noindent 令$ \mathcal{H}=\{h_a:a\in\mathbb{R}\} $表示一维阈值函数$ h_a(x)=\mathbb{I}(x\leq a) $构成的假设空间，集合$ D $包含实轴上$ m $个不同的点，本题将引导大家估计$ \mathcal{H} $关于$ D $的经验Rademacher复杂度$ \hat{\mathfrak{R}}_{D}(\mathcal{H})$. 
+\begin{enumerate}
+    \item[(1)] \textbf{[10pts]} 试证明：$\hat{\mathfrak{R}}_{D}(\mathcal{H})=O\left(\sqrt{\frac{\log m}{m}}\right)$~. 提示：你可能需要使用第三章课件中的某个定理或推论.
+    \item[(2)] \textbf{[15pts]} 事实上，第一问中对经验Rademacher复杂度的估计并非是最紧的，这意味着将广泛成立的定理应用在特定问题时，不一定能获得最好的结果. 本问我们将利用一个关于随机游走的结论给出一个准确的估计. 
+    \begin{definition}[一维随机游走]
+        假设在实轴上有一个点，其初始位置$x_0=0$. 一个\textbf{一维随机游走}是一个总共进行~$n$~轮的过程，在每一轮中，该点以概率~$p$~向正方向前进$1$个单位，以概率$1-p$向负方向前进$1$个单位. 令~$\sigma_i,~i=1,2,\dots,n$~为定义在$\{-1, +1\}$上的随机变量，且$P(\sigma_i=+1)=p$，那么该点第~$k$~轮过后所在的位置可以表示为$x_k=\sum_{i=1}^k \sigma_i$. 
+    \end{definition}
+    \begin{theorem}[一维随机游走的最远距离期望]
+        在一个~$n$~轮的一维随机游走中，若$p=1/2$，那么该点在整个过程中离初始位置最远的距离的期望为~$\Theta\left(\sqrt{n}\right)$~，即：
+        $$ \mathbb{E}_{\boldsymbol{\sigma}}\left[ \max_{i\in\{1,2,\dots,n\}}x_i \right]= \Theta\left(\sqrt{n}\right)~.$$
+    \end{theorem}
+    试利用上述定义和定理证明：$\hat{\mathfrak{R}}_{D}(\mathcal{H})=\Theta\left(\frac{1}{\sqrt{m}}\right)~.$
+    \item[(3)] \textbf{[20pts*]} 对于一维阈值函数这个特殊的假设空间，我们还可以使用一些组合数学的技巧，先写出这个Rademacher复杂度的组合数表达式，再对组合数的大小进行估计，可以获得和第(2)问相同的结果. \textbf{这一问不占基本分值，感兴趣的同学可以尝试按照下面的步骤完成证明. 完成Step 2和Step 3部分或全部证明的同学，将在本学期的作业中获得一些额外的分数（不会超过作业分数的上限）. }
+    \newline\text{  } 
+    \newline\noindent \textbf{Step 1.} 在经验Rademacher复杂度的表达式中，实际上期望运算就是将$\boldsymbol{\sigma}$的$2^m$种取值下内部表达式的值求出了算术平均. 因此记$A_i$为使得内部表达式的取值为$i$的$\boldsymbol{\sigma}$的取值总数，那么有$\hat{\mathfrak{R}}_{D}(\mathcal{H})=\frac{\sum_{i=0}^m i*A_i}{m\cdot 2^m}$~.
+    \newline\noindent \textbf{Step 2.} 定义$B_k=\sum_{i=0}^k A_i$，那么~$B_k$~可以由一个等价的\emph{格子计数问题}(lattice path enumeration)的相关结论结合数学归纳法给出. 进一步可以写出~$A_k$~的表达式.
+    \newline\noindent \textbf{Step 3.} 最后需要估计一系列组合数的求和的大小。通过对组合数对称性的一些观察，可以通过简单的变形，在求和式内部凑出裂项结构，从而将求和消去。在使用~Stirling~公式对组合数进行估计后，分子剩余部分恰好为$\sqrt{m}\cdot 2^m$，和分母的~$m\cdot 2^m$~相除即可完成证明.
+\end{enumerate}
+\textbf{参考文献}：定理$1$来自论文~\href{https://arxiv.org/pdf/1802.04615.pdf}{How Far Might We Walk at Random}~；第(3)问~Step 2~中关于格子计数问题的结论可参考文章~\href{https://arxiv.org/pdf/1503.05930.pdf}{Lattice Path Enumeration}~的定理10.1.3。
+\begin{myProof}
+    此处用于写解答(中英文均可)
+    
+    
+    (1)
+    $\because \hat{\mathfrak{R}}_{D}(\mathcal{H}) = \frac{1}{m}E_\sigma \left [ sup\sum_{m}^{i=1} \sigma _i\mathbb{I}(x_i\leq a)\right ]\leq \frac{1}{m}E_\sigma \left [ sup\sum_{m}^{i=1} \sigma _i\right ]$
+    
+    阈值函数$\because \prod_{\mathcal{H}} \left ( m \right ) = 2^m $
+    
+    $\therefore \frac{1}{m}E_\sigma \left [ sup\sum_{m}^{i=1} \sigma _i\right ]\leq \frac{1}{m}\left ( mlogm \right )^\frac{1}{2}$
+    
+    即$\hat{\mathfrak{R}}_{D}(\mathcal{H})\leq \frac{1}{m}\left ( mlogm \right )^\frac{1}{2}$
+    
+    $\hat{\mathfrak{R}}_{D}(\mathcal{H})=O\left(\sqrt{\frac{\log m}{m}}\right)$
+    
+    (2)
+    由一维随机游走的最远距离期望：在一个~$n$~轮的一维随机游走中，若$p=1/2$，那么该点在整个过程中离初始位置最远的距离的期望为~$\Theta\left(\sqrt{n}\right)$~，即Theorem 1：
+    $$ \mathbb{E}_{\boldsymbol{\sigma}}\left[ \max_{i\in\{1,2,\dots,n\}}x_i \right]= \Theta\left(\sqrt{n}\right)~.$$
+    
+    可以类比本题目，$ \mathcal{H}=\{h_a:a\in\mathbb{R}\} $表示一维阈值函数$ h_a(x)=\mathbb{I}(x\leq a) $构成的假设空间，由于D是实轴上的点，实轴上有无数的点，所以a取任何值都可以看作是将整个实轴分成了相等的两份，因此，D上的某一点$x_i$，$\mathbb{I}(x_i\leq a)=1$的概率就为$\frac{1}{2}$,即可以用到题目所给的Theorem 1
+    
+    由(1) $\because \hat{\mathfrak{R}}_{D}(\mathcal{H}) = \frac{1}{m}E_\sigma \left [ sup\sum_{m}^{i=1} \sigma _i\mathbb{I}(x_i\leq a)\right ]\leq \frac{1}{m}E_\sigma \left [ sup\sum_{m}^{i=1} \sigma _i\right ]$
+    
+    $E_\sigma \left [ sup\sum_{m}^{i=1} \sigma _i\mathbb{I}(x_i\leq a)\right ] = \mathbb{E}_{\boldsymbol{\sigma}}\left[ \max_{i\in\{1,2,\dots,m\}}x_i \right] = \Theta\left(\sqrt{m}\right)$
+    
+    因而可得：$\hat{\mathfrak{R}}_{D}(\mathcal{H}) = \frac{1}{m}E_\sigma \left [ sup\sum_{m}^{i=1} \sigma _i\mathbb{I}(x_i\leq a)\right ] = \frac{1}{m} \Theta\left(\sqrt{m}\right)$
+    
+    即 $\hat{\mathfrak{R}}_{D}(\mathcal{H}) = \Theta\left(\sqrt{1/\sqrt{m}}\right)$
+    
+    
+    
+\end{myProof}~\\
+
+\newpage 
+
+\section{[25pts] VC Dimension and the Number of Parameters} 
+
+\noindent 回顾课件中精确计算~VC~维的几个例子: 
+\begin{itemize}
+    \item 阈值函数的假设空间为~$ \mathcal{H} = \{ \text{sign}( \mathbb{I}(x \leqslant a) - 0.5 ) : a \in \mathbb{R} \} $, 假设有~$1$~个参数, 且~$\mathcal{H}$~的~VC~维为~$1$; 
+    \item 区间函数的假设空间为~$ \mathcal{H} = \{ \text{sign}( \mathbb{I}( x \in [a,b] ) - 0.5 ) : a,b \in \mathbb{R} , a \leqslant b \} $, 假设有~$2$~个参数, 且~$\mathcal{H}$~的~VC~维为~$2$; 
+    \item 课件中给出了~$\mathbb{R}^d$~中线性超平面的假设空间, 假设有~$d+1$~个参数, 且假设空间的~VC~维为~$d+1$. 
+\end{itemize}
+在这些例子中, 假设的参数个数等于假设空间的~VC~维. 该结论是否对任意假设空间都成立呢? 试给出下列各小问的假设空间的数学表达式, 假设的参数个数, VC~维, 并给出~VC~维的证明. 
+\begin{enumerate}[(1)]
+    \item \textbf{[10pts]} 所有经过~$(0,0)$~点的正弦函数, 函数值大于等于~$0$~时标记为~$+1$, 否则为~$-1$. 
+    \item \textbf{[15pts]} 所有正三角形, 三角形边缘与内部为~$+1$, 外部为~$-1$. 
+\end{enumerate}
+提示: 正三角形的~VC~维可能较难证明, 可以尝试给出尽可能紧的上界与下界. 
+
+\begin{mySol}~\\
+    此处用于写解答(中英文均可)
+    
+    (1)
+    根据题目可得，所有经过(0,0)点的正弦函数的假设空间:
+    
+    $\mathcal{H}= \left\{ \text{sign}( m*sin(ax+k\pi )):m \in \mathbb{R},a \in \mathbb{R},k \in \mathbb{N}\right\}$
+    
+    根据假设的表达式可得，参数有3个，分别是m,a,k
+    
+    要验证VC维，就要看是否有大小为3的示例集能将其打散，即:
+    
+    $\exists D = \left\{ x_1,x_2,x_3\right\}$,显然无论$x_1,x_2,x_3$三者的关系如何，都可以由对应的假设$h_{m,a,k}$满足其所有分类集合如${1,1,-1},{-1,1,-1}$等，这是由于正弦函数是周期函数，m可以实现任意宽度上的变化，a可以实现函数的水平轴反转，k可以实现水平方向的平移，使在一个区域内既可能大于0也可能小于0
+    
+    显然，正弦函数是可以被大小为3的示例集打散的。
+    
+    但是当d>3时，可以和d=3时做类似的推断，无论d取任何值，正弦函数都存在假设$h_{m,a,k}$能满足其不同的分类集合
+    
+    因此，所有经过(0,0)点的正弦函数$\mathcal{H}= \left\{ \text{sign}( m*sin(ax+k\pi )):m \in \mathbb{R},a \in \mathbb{R},k \in \mathbb{N}\right\}$
+    
+    $VC(\mathcal{H}) = \infty$
+    
+    (2)
+    把一个正三角形的底边放在二维坐标轴的横轴上，并且原点为正三角形底边的中点，则可以通过边长来确定正三角形边以及内部所构成的区域函数
+    
+    设正三角形边长为L，则区域为：
+    $y>=0 \cap y \geq \sqrt{3}x-\frac{L}{2} \cap y \leq -\sqrt{3}x+\frac{L}{2}$
+    
+    a.$\mathcal{H}= \left\{ \text{sign}((x,y) \in y>=0 \cap y \geq \sqrt{3}x-\frac{L}{2} \cap y \leq -\sqrt{3}x+\frac{L}{2}):l \in \mathbb{R},l>0\right\}$
+    
+    或者说，可以用一个坐标点和三角形边长来确定该正三角形的区域D，即$D(a,b,l)$,a,b为三角形的一个点的坐标,l为正三角形边长，因此
+    
+    b.$\mathcal{H}= \left\{ \text{sign}((x,y) \in D(a,b,l)):a,b,l \in \mathbb{R},l>0\right\}$
+    
+    如果以a.来看，假设空间只有一个参数{l}
+    
+    显然，若D为一维，即$D = {(x_1,y_1)}$就可以将其假设空间打散，若D为二维，简单思考也能满足
+    
+    但是若D为8维，即即$D = {(x_1,y_1),(x_2,y_2),(x_3,y_3)...(x_8,y_8)}$,则会出现问题
+    
+    首先考察任意8个点的凸包.如果有点在凸包内,那么要凸包上的点在里面,凸包里的点在外面，这显然是不可能的.否则就是8个点都在凸包上,取不相邻的4个在里面,另外不相邻的4个就要在外面，由于在外面至少要在三角形一条边的外面，根据鸽笼原理，至少有两个点在同一边的外面。这样势必那两点间的应该在里面的点也会被切出去，就会发生矛盾
+    
+    所以$VC(\mathcal{H)} = 8$
+    
+    
+    
+\end{mySol}
+
+
+\end{document}
