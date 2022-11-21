@@ -1,0 +1,113 @@
+\documentclass[a4paper,UTF8]{article}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{color}
+\usepackage{ctex}
+\usepackage{enumerate}
+\usepackage{epsfig}
+\usepackage[margin=1.25in]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{lipsum}
+\usepackage{mdframed}
+\usepackage{pgfplots}
+\usepackage{tcolorbox}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.5in}
+\setlength{\topmargin}{-0.5in}
+
+%%%%%%%%%%%%%%%%%%此处用于设置页眉页脚%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{layout}
+\footskip = 12pt 
+\pagestyle{fancy}
+\lhead{2022年春季}                    
+\chead{机器学习理论研究导引}
+\rhead{作业四}
+\cfoot{\thepage}                                                
+\renewcommand{\headrulewidth}{1pt} %页眉线宽, 设为0可以去页眉线
+\setlength{\skip\footins}{0.5cm} %脚注与正文的距离           
+\renewcommand{\footrulewidth}{0pt} %页脚线宽, 设为0可以去页脚线
+
+\makeatletter %设置双线页眉                                        
+\def\headrule{{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
+\hrule\@height 1.0pt \@width\headwidth\vskip1pt	%上面线为1pt粗  
+\hrule\@height 0.5pt\@width\headwidth %下面0.5pt粗            
+\vskip-2\headrulewidth\vskip-1pt} %两条线的距离1pt        
+ \vspace{6mm}} %双线与下面正文之间的垂直间距              
+\makeatother  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\numberwithin{equation}{section}
+\newtheorem*{myProof}{Proof}
+\newtheorem*{mySol}{Solution}
+
+\usepackage{multirow}
+
+\def \x {\boldsymbol{x}}
+\def \L {\mathfrak{L}}
+\def \z {\boldsymbol{z}}
+\def \w {\boldsymbol{w}}
+\def \E {\mathbb{E}}
+\def \D {\mathcal{D}}
+\newcommand\norm[1]{\left\lVert #1 \right\rVert}
+
+\pgfplotsset{compat=1.16} 
+
+\begin{document}
+
+\title{机器学习理论研究导引\\
+作业四}
+\author{你的姓名\, 你的学号} 
+\maketitle
+%%%%%%%% 注意: 使用XeLatex 编译可能会报错, 请使用 pdfLaTex 编译 %%%%%%%
+
+\section*{作业提交注意事项}
+
+\begin{tcolorbox}
+    \begin{enumerate}
+        \item[(1)] 本次作业提交截止时间为~\textcolor{red}{\textbf{2022/05/17  23:59:59}}, 截止时间后不再接收作业, 本次作业记零分; 
+        \item[(2)] 作业提交方式：使用此~LaTex~模板书写解答，只需提交编译生成的~pdf~文件，将~pdf~文件上传到以下ftp服务器的指定位置：
+        \newline 地址：sftp://210.28.132.67:22，用户名：mlt2022，密码：mltspring2022@nju
+        \newline 文件夹位置：/C:/Users/mlt2022/hw\_submissions/hw4\_submission/  ；
+        \item[(3)] pdf 文件命名方式：学号-姓名-作业号-v版本号, 例~ MG1900000-张三-4-v1；如果需要更改已提交的解答，请在截止时间之前提交新版本的解答，并将版本号加一；
+        \item[(4)] 未按照要求提交作业，或~pdf~命名方式不正确，将会被扣除部分作业分数. 
+    \end{enumerate}
+\end{tcolorbox}
+
+\newpage
+
+\section{[50pts] Rethinking Stability of SVR} 
+教材5.3.2节证明了支持向量回归具有替换样本$\beta$-均匀稳定性, 其中$\beta=\frac{2r^2}{\lambda m}$. 试给出更紧的界, 即$\beta=\frac{r^2}{\lambda m}$.
+
+\begin{myProof}~\\ 
+
+\end{myProof}
+
+\newpage
+
+\section{[50pts] Generalization and Stability} 
+
+\noindent 给定分布$\mathcal{D}$, 对任意 $k \in[m]$, 数据集 $D\sim \mathcal{D}^{m}$ 和样本 $\boldsymbol{z} \in \mathcal{X} \times \mathcal{Y}$, 若算法 $\mathfrak{L}$ 满足
+$$
+\begin{array}{l}
+	\left|\hat{R}\left(\mathfrak{L}_{D}\right)-\sum_{\boldsymbol{z}^{\prime} \in D^{k, \boldsymbol{z}}} \frac{\ell\left(\mathfrak{L}_{D^{k, \boldsymbol{z}}}, \boldsymbol{z}^{\prime}\right)}{m}\right| \leqslant \beta_{1} \\
+	\left|R\left(\mathfrak{L}_{D}\right)-\mathbb{E}_{\boldsymbol{z} \sim \mathcal{D}}\left[\ell\left(\mathfrak{L}_{D^{k, \boldsymbol{z}}}, \boldsymbol{z}\right)\right]\right| \leqslant \beta_{2}
+\end{array}
+$$
+试证明: 对任意 $\epsilon>0$ 有
+$$
+	P_{D \sim \mathcal{D}^{m}}\left(\left|R\left(\mathfrak{L}_{D}\right)-\hat{R}\left(\mathfrak{L}_{D}\right)\right| \geqslant \epsilon+\beta_{2}\right) \leqslant 2 \exp \left(\frac{-2 \epsilon^{2}}{m\left(\beta_{1}+2 \beta_{2}\right)^{2}}\right)
+$$
+
+\begin{myProof}~\\ 
+
+\end{myProof}
+
+\end{document}
